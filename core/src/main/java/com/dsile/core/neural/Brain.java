@@ -28,7 +28,7 @@ public class Brain {
         neuronsInLayers.add(4);
         neuralNetwork = new MultiLayerPerceptron(neuronsInLayers, new NeuronProperties(TransferFunctionType.SIGMOID, true));
 
-        neuralNetwork.setLearningRule(new BackPropagation());
+        //neuralNetwork.setLearningRule(new BackPropagation());
 
         Neuron[] OutputLayerNeurons = neuralNetwork.getOutputNeurons();
         for(int i = 0; i < OutputLayerNeurons.length; i++) {
@@ -44,7 +44,9 @@ public class Brain {
         trainingSet.addRow (new DataSetRow(inputVector, outputVector));
     }
     public void learn(){
+        System.out.println("going to learn...");
         neuralNetwork.learn(trainingSet);
+        System.out.println("learning done");
     }
     public void setInput(double[] inputVector){
         neuralNetwork.setInput(inputVector);

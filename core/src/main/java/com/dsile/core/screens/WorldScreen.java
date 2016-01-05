@@ -28,14 +28,8 @@ public class WorldScreen implements Screen, InputProcessor {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        //TestBeast beast1 = new TestBeast(world, 4, 2);
-        //TestBeast beast2 = ;
-
-        //bt.train(beast1);
-        //bt.train(beast2);
-
-        stage.addActor(new TestBeast(world, 4, 2));
-        stage.addActor(new TestBeast(world, 2, 2) {
+        TestBeast beast1 = new TestBeast(world, 4, 2);
+        TestBeast beast2 = new TestBeast(world, 2, 2) {
             @Override
             public void act(float delta) {
                 //только при движении
@@ -50,9 +44,13 @@ public class WorldScreen implements Screen, InputProcessor {
                 //setX((float) (getX() + velocity.x));
                 //setY((float) (getY() + velocity.y));
             }
+        };
 
-            ;
-        });
+        bt.train(beast1);
+        bt.train(beast2);
+
+        stage.addActor(beast1);
+        stage.addActor(beast2);
     }
 
     @Override
@@ -63,7 +61,7 @@ public class WorldScreen implements Screen, InputProcessor {
         world.drawMap(batch);
         batch.end();
         stage.draw();
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
             stage.act(delta);
     }
 
