@@ -1,45 +1,32 @@
 package com.dsile.core;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.dsile.core.screens.WorldScreen;
 
-public class NeuroLife implements ApplicationListener {
-	Texture texture;
+public class NeuroLife extends Game {
 	SpriteBatch batch;
-	float elapsed;
+	Texture img;
 
 	@Override
 	public void create () {
-		texture = new Texture(Gdx.files.internal("libgdx-logo.png"));
-		batch = new SpriteBatch();
+		//batch = new SpriteBatch();
+		//img = new Texture("badlogic.jpg");
+		setScreen(new WorldScreen());
 	}
 
-	@Override
-	public void resize (int width, int height) {
-	}
-
+    /*
 	@Override
 	public void render () {
-		elapsed += Gdx.graphics.getDeltaTime();
-		Gdx.gl.glClearColor(0, 0, 0, 0);
-		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(texture, 100+100*(float)Math.cos(elapsed), 100+25*(float)Math.sin(elapsed));
+		batch.draw(img, 0, 0);
 		batch.end();
 	}
-
-	@Override
-	public void pause () {
-	}
-
-	@Override
-	public void resume () {
-	}
-
-	@Override
-	public void dispose () {
-	}
+	*/
 }
