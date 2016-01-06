@@ -6,23 +6,23 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.dsile.core.entities.actions.factors.Vision;
-import com.dsile.core.entities.actions.movement.Direction;
+import com.dsile.core.entities.actions.movement.DirectionValues;
 import com.dsile.core.entities.actions.movement.Movement;
-import com.dsile.core.entities.actions.movement.Rotation;
-import com.dsile.core.logic.Point;
+import com.dsile.core.entities.actions.movement.Direction;
 import com.dsile.core.neural.Brain;
 import com.dsile.core.world.Cell;
 import com.dsile.core.world.World;
 
-import java.util.Arrays;
-
 /**
+ * Тестовое существо для отладки функций приложения.
+ * Впоследствии будет развита иерархия существ и деления на падальщиков, хищинков и травоядных.
+ *
  * Created by DeSile on 08.12.2015.
  */
 public class TestBeast extends Actor implements Entity {
 
 
-    public Rotation rotation = new Rotation(Direction.EAST);
+    public Direction direction = new Direction(DirectionValues.EAST);
 
     private Texture texture = new Texture("testbeast.png");
     private Brain brain;
@@ -42,7 +42,7 @@ public class TestBeast extends Actor implements Entity {
 
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                rotation.angle += 45;
+                direction.angle += 45;
                 return true;
             }
 
@@ -71,8 +71,8 @@ public class TestBeast extends Actor implements Entity {
 
 
     public void setRotation() {
-        if (getRotation() != rotation.getAngle()) {
-            super.setRotation(rotation.getAngle());
+        if (getRotation() != direction.getAngle()) {
+            super.setRotation(direction.getAngle());
             movement.setVelocityVector();
         }
     }
@@ -105,6 +105,12 @@ public class TestBeast extends Actor implements Entity {
     public World getWorld() {
         return world;
     }
+
+    public Direction getDirection(){
+        return direction;
+    }
+
+
 
 
 }

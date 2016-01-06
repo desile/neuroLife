@@ -1,6 +1,5 @@
 package com.dsile.core.entities.actions.movement;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.dsile.core.entities.TestBeast;
 import com.dsile.core.logic.Point;
 
@@ -102,7 +101,7 @@ public class Movement {
         //Как известно, нейронная сеть может вернуть нам в качестве результата сразу два возможных направления.
         boolean fstDir = false; //Наличие первого направления
         boolean sndDir = false; //Наличие второго направления
-        Direction dir; //Результирующее направление
+        DirectionValues dir; //Результирующее направление
         System.out.println(Arrays.toString(order));
         //order[2] и order[3] - номера индексов самых больших значений массива brainOutput
         //Проверяем можно ли считать второе по величине значение направлением.
@@ -128,7 +127,7 @@ public class Movement {
         }
         //Устанавливаем получившееся направления существу только если оно проходит нижний порог значений направлений.
         if(brainOutput[order[2]] > LOWER_LIMIT_OF_BRAIN_OUTPUT_DIRECTION|| brainOutput[order[3]] > LOWER_LIMIT_OF_BRAIN_OUTPUT_DIRECTION) {
-            entity.rotation.setDirection(dir);
+            entity.getDirection().setDirection(dir);
             System.out.println(dir);
             perform(); //и запускаем шаг
         }
@@ -139,36 +138,36 @@ public class Movement {
      * @param dir массив из одного или двух элементов со значениями от 0 до 3, которые интерпретируются в направления.
      * @return Конкретное направление.
      */
-    private Direction choseDirection(int... dir){ //либо одно, либо два числа
+    private DirectionValues choseDirection(int... dir){ //либо одно, либо два числа
         if(dir.length == 2){
             if((dir[0] == 0 && dir[1] == 1)||(dir[0] == 1 && dir[1] == 0)){
-                return Direction.NORTH_EAST;
+                return DirectionValues.NORTH_EAST;
             }
             if((dir[0] == 1 && dir[1] == 2)||(dir[0] == 2 && dir[1] == 1)){
-                return Direction.NORTH_WEST;
+                return DirectionValues.NORTH_WEST;
             }
             if((dir[0] == 2 && dir[1] == 3)||(dir[0] == 3 && dir[1] == 2)){
-                return Direction.SOUTH_WEST;
+                return DirectionValues.SOUTH_WEST;
             }
             if((dir[0] == 3 && dir[1] == 0)||(dir[0] == 0 && dir[1] == 3)){
-                return Direction.SOUTH_EAST;
+                return DirectionValues.SOUTH_EAST;
             }
         }
         if(dir.length == 1){
             if(dir[0] == 0){
-                return Direction.EAST;
+                return DirectionValues.EAST;
             }
             if(dir[0] == 1){
-                return Direction.NORTH;
+                return DirectionValues.NORTH;
             }
             if(dir[0] == 2){
-                return Direction.WEST;
+                return DirectionValues.WEST;
             }
             if(dir[0] == 3){
-                return Direction.SOUTH;
+                return DirectionValues.SOUTH;
             }
         }
-        return Direction.EAST; //в случае нештатной ситуации жебошить вправо
+        return DirectionValues.EAST; //в случае нештатной ситуации жебошить вправо
     }
 
     /**
