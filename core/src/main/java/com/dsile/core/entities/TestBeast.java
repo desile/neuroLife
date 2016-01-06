@@ -19,10 +19,11 @@ import com.dsile.core.world.World;
  *
  * Created by DeSile on 08.12.2015.
  */
+//TODO: Создать абстрактный класс, чтобы избежать создания анонимного класса в WorldScreen.
 public class TestBeast extends Actor implements Entity {
 
 
-    public Direction direction = new Direction(DirectionValues.EAST);
+    protected Direction direction = new Direction(DirectionValues.EAST);
 
     private Texture texture = new Texture("testbeast.png");
     private Brain brain;
@@ -34,6 +35,12 @@ public class TestBeast extends Actor implements Entity {
     private Cell currentCell;
 
 
+    /**
+     * Создание существа (актера) в клеточном мире.
+     * @param world мир, в котором создается существо.
+     * @param x клетка по x
+     * @param y клетка по y
+     */
     public TestBeast(World world, int x, int y) {
 
         this.world = world;
@@ -62,6 +69,11 @@ public class TestBeast extends Actor implements Entity {
 
     }
 
+    /**
+     * Отрисовка существо с учетом текстуры, масштабов и угла поворота.
+     * @param batch спрайтбатч-отрисовщик
+     * @param parentAlpha ???
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(texture, this.getX(), getY(), this.getOriginX(), this.getOriginY(), this.getWidth(),
@@ -69,7 +81,9 @@ public class TestBeast extends Actor implements Entity {
                 texture.getWidth(), texture.getHeight(), false, false);
     }
 
-
+    /**
+     * Поворачивает ось и изображение существа на установленный в direction угол.
+     */
     public void setRotation() {
         if (getRotation() != direction.getAngle()) {
             super.setRotation(direction.getAngle());
@@ -77,16 +91,19 @@ public class TestBeast extends Actor implements Entity {
         }
     }
 
+    /**
+     * Метод-тик выполняющийся непрерывно в ходе работы программы.
+     * Содержит в себе всю логику, которую существо способно выполнить за тик.
+     * @param delta задержка по времени между выполнением тика
+     */
     @Override
     public void act(float delta) {
-        //всегда
-        double[] thinks = vision.accessSituation();
-        //System.out.println(Arrays.toString(thinks));
-        //vision.getEnvironment();
-
-        //только при движении
+        //Оценка окружающие обстановки
+        vision.accessSituation();
+        //Движение.
         movement.perform();
     }
+
 
 
     @Override
