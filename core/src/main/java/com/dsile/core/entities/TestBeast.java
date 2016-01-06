@@ -22,7 +22,7 @@ import java.util.Arrays;
 public class TestBeast extends Actor implements Entity {
 
 
-    protected Rotation rotation = new Rotation(Direction.EAST);
+    public Rotation rotation = new Rotation(Direction.EAST);
 
     private Texture texture = new Texture("testbeast.png");
     private Brain brain;
@@ -79,13 +79,13 @@ public class TestBeast extends Actor implements Entity {
 
     @Override
     public void act(float delta) {
-        //только при движении
-        movement.perform();
-
         //всегда
-        System.out.println(Arrays.toString(vision.getEnvironment()));
+        double[] thinks = vision.accessSituation();
+        //System.out.println(Arrays.toString(thinks));
         //vision.getEnvironment();
 
+        //только при движении
+        movement.perform();
     }
 
 

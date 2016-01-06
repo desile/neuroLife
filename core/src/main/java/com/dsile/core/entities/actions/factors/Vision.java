@@ -1,6 +1,7 @@
 package com.dsile.core.entities.actions.factors;
 
 import com.dsile.core.entities.TestBeast;
+import com.dsile.core.neural.Brain;
 
 /**
  * Created by DeSile on 1/6/2016.
@@ -48,5 +49,14 @@ public class Vision {
         }
 
         return env;
+    }
+
+    public double[] accessSituation(){
+        int[] environment = getEnvironment();
+        Brain brain = entity.getBrain();
+        brain.setInput(environment);
+        brain.think();
+        double[] thinks = brain.getOutput();
+        return thinks;
     }
 }

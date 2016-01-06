@@ -51,6 +51,13 @@ public class Brain {
     public void setInput(double[] inputVector){
         neuralNetwork.setInput(inputVector);
     }
+    public void setInput(int[] inputVector){
+        double[] doubleVec = new double[inputVector.length];
+        for(int i = 0; i < doubleVec.length; i++){
+            doubleVec[i] = inputVector[i];
+        }
+        neuralNetwork.setInput(doubleVec);
+    }
     public void think(){
         neuralNetwork.calculate();
     }

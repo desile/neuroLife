@@ -11,6 +11,8 @@ import com.dsile.core.entities.TestBeast;
 import com.dsile.core.neural.BrainTrainer;
 import com.dsile.core.world.World;
 
+import java.util.Arrays;
+
 /**
  * Created by DeSile on 07.12.2015.
  */
@@ -28,14 +30,17 @@ public class WorldScreen implements Screen, InputProcessor {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        TestBeast beast1 = new TestBeast(world, 4, 2);
-        TestBeast beast2 = new TestBeast(world, 2, 2) {
+        TestBeast beast1 = new TestBeast(world, 5, 5);
+        TestBeast beast2 = new TestBeast(world, 3, 5) {
             @Override
             public void act(float delta) {
 
-                //BY VECTORS MOVE
-                //setX((float) (getX() + velocity.x));
-                //setY((float) (getY() + velocity.y));
+                double[] thinks = vision.accessSituation();
+                System.out.println(Arrays.toString(thinks));
+                //vision.getEnvironment();
+
+                //только при движении
+                movement.perform(thinks);
             }
         };
 
