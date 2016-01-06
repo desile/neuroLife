@@ -1,17 +1,26 @@
 package com.dsile.core.entities.actions.movement;
 
 /**
+ * Класс интерпретирующий направления в значения угла поворота существа.
+ *
  * Created by DeSile on 1/6/2016.
  */
 public class Rotation {
 
-    public int angle = 0;
+    /**
+     * Угол поворота
+     */
+    public int angle = 0; //TODO: в private
     private Direction direction;
 
     public Rotation(Direction dir){
         setDirection(dir);
     }
 
+    /**
+     * Установка угла поворота в зависимости от переданного направления
+     * @param dir направление.
+     */
     public void setDirection(Direction dir){
         direction = dir;
         switch(dir){
@@ -42,10 +51,16 @@ public class Rotation {
         }
     }
 
+    /**
+     * Получение значения угла.
+     */
     public int getAngle(){
         return angle;
     }
 
+    /**
+     * Получение направления.
+     */
     public Direction getDirection(){
         return direction;
     }
