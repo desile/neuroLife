@@ -28,7 +28,7 @@ public class Brain {
         neuronsInLayers.add(4);
         neuralNetwork = new MultiLayerPerceptron(neuronsInLayers, new NeuronProperties(TransferFunctionType.SIGMOID, true));
 
-        //neuralNetwork.setLearningRule(new BackPropagation());
+        neuralNetwork.setLearningRule(new BackPropagation()); //раскомментирвал, т.к. должен быть метод обратного распространения ошибки
 
         Neuron[] OutputLayerNeurons = neuralNetwork.getOutputNeurons();
         for(int i = 0; i < OutputLayerNeurons.length; i++) {
