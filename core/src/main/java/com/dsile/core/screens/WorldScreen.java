@@ -32,14 +32,7 @@ public class WorldScreen implements Screen, InputProcessor {
         TestBeast beast2 = new TestBeast(world, 2, 2) {
             @Override
             public void act(float delta) {
-                //только при движении
-                if (isStepToNewCell())
-                    setRotation(rotation);
 
-                //всегда
-                if (checkVision()) {
-                    System.out.println("I SEE!");
-                }
                 //BY VECTORS MOVE
                 //setX((float) (getX() + velocity.x));
                 //setY((float) (getY() + velocity.y));
