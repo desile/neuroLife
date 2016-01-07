@@ -29,8 +29,8 @@ public class TestBeast extends Actor implements Entity {
     private Brain brain;
     private int size = 32;
 
-    protected Movement movement = new Movement(this);
-    protected Vision vision = new Vision(this);
+    protected Movement movement;
+    protected Vision vision;
     private World world;
     private Cell currentCell;
 
@@ -46,6 +46,8 @@ public class TestBeast extends Actor implements Entity {
         this.world = world;
         this.currentCell = world.getCell(x, y).setEntity(this);
         this.brain = new Brain();
+        this.movement = new Movement(this);
+        this.vision = new Vision(this);
 
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
