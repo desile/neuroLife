@@ -1,9 +1,6 @@
 package com.dsile.core.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -16,39 +13,30 @@ import java.util.Arrays;
 /**
  * Created by DeSile on 07.12.2015.
  */
-public class WorldScreen implements Screen, InputProcessor {
+public class WorldScreen implements Screen {
 
     BrainTrainer bt = new BrainTrainer();
     SpriteBatch batch;
     World world;
     Stage stage;
+    MyInputProcessor keysProcessor;
+
 
     @Override
     public void show() {
         batch = new SpriteBatch();
         world = new World(10, 10, 32);
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
 
-        TestBeast beast1 = new TestBeast(world, 5, 5);
-        TestBeast beast2 = new TestBeast(world, 3, 5) {
-            @Override
-            public void act(float delta) {
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        keysProcessor = new MyInputProcessor();
+        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(keysProcessor);
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
-                double[] thinks = vision.accessSituation();
-                System.out.println(Arrays.toString(thinks));
-                //vision.getEnvironment();
 
-                //только при движении
-                movement.perform(thinks);
-            }
-        };
-
-        bt.train(beast1);
-        bt.train(beast2);
-
-        stage.addActor(beast1);
-        stage.addActor(beast2);
+        world.getEntities().stream().forEach(bt::train);
+        world.getEntities().stream().forEach(stage::addActor);
     }
 
     @Override
@@ -59,7 +47,7 @@ public class WorldScreen implements Screen, InputProcessor {
         world.drawMap(batch);
         batch.end();
         stage.draw();
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
+        if (keysProcessor.isSpaceClicked())
             stage.act(delta);
     }
 
@@ -87,47 +75,4 @@ public class WorldScreen implements Screen, InputProcessor {
     public void dispose() {
 
     }
-
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
-
-
 }

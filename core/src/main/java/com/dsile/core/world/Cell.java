@@ -2,7 +2,8 @@ package com.dsile.core.world;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.dsile.core.entities.Entity;
+import com.dsile.core.entities.HasBrain;
+import com.dsile.core.entities.actions.Entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -43,7 +44,7 @@ public abstract class Cell{
         return this;
     }
 
-    public Cell removeSelf(Entity e){
+    public Cell removeEntity(Entity e){
         entities.remove(e);
         return this;
     }

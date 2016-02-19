@@ -1,8 +1,13 @@
 package com.dsile.core.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.dsile.core.entities.TestBeast;
+import com.dsile.core.entities.actions.Entity;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by DeSile on 07.12.2015.
@@ -15,6 +20,8 @@ public class World {
     private int cellsY;
     private Cell[][] cells;
 
+    private Set<Entity> entities = new HashSet<>();
+
     public World(int cellsX, int cellsY, int cellSize){
         this.cellsX = cellsX;
         this.cellsY = cellsY;
@@ -26,6 +33,10 @@ public class World {
                 cells[i][j] = new GroundCell(cellSize,i,j);
             }
         }
+
+        entities.add(new TestBeast(this,5,5));
+        //entities.add(new TestBeast(this,3,5));
+
     }
 
     public void drawMap(SpriteBatch batch){
@@ -50,12 +61,18 @@ public class World {
 
     //TODO: ADD EXCEPTIONS
     public Cell getCell(int x, int y){
-        return cells[x][y];
-    }
-
-    public Cell getCell(double origX, double origY){
-        int x = (int) (origX/cells[0][0].getSize());
-        int y = (int) (origY/cells[0][0].getSize());
+        if(x >= cellsX){
+            x = 0;
+        }
+        if(x < 0){
+            x = cellsX-1;
+        }
+        if(y >= cellsY){
+            y = 0;
+        }
+        if(y < 0){
+            y = cellsY-1;
+        }
         return cells[x][y];
     }
 
@@ -67,4 +84,7 @@ public class World {
         return cellsY;
     }
 
+    public Set<Entity> getEntities(){
+        return entities;
+    }
 }

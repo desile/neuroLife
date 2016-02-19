@@ -1,6 +1,7 @@
 package com.dsile.core.entities.actions.movement;
 
 import com.dsile.core.entities.TestBeast;
+import com.dsile.core.entities.actions.Entity;
 import com.dsile.core.logic.Point;
 
 import java.util.Arrays;
@@ -14,53 +15,25 @@ import java.util.Arrays;
 public class Movement {
 
     /**
-     * Возможная погрешность при расчете координат
-     */
-    public static double COORDINATION_ERROR = 1;
-
-    /**
      * Верхняя и нижния границы для определения направлений по значениям из нейронной сети
      */
     private static double UPPER_LIMIT_OF_BRAIN_OUTPUT_DIRECTION = 0.7;
     private static double LOWER_LIMIT_OF_BRAIN_OUTPUT_DIRECTION = 0.15;
 
-    /**
-     * Скорость перемещения
-     */
-    private float speed = 0.5f;
-
-    /**
-     * Вектор направления движения
-     */
-    private Point velocity = new Point();
-
-    /**
-     * Текущее количество пройденных пикселей в текущей клетке.
-     * Используется для определения момента, когда существо переходит из одной клетки в другую.
-     */
-    private double stepsInCell;
 
     /**
      * Перемещаемое существо.
      */
-    private TestBeast entity;
+    private Entity entity;
 
     /**
      * Устанавливает текущее существо, устанавливает вектор скорости и начальное количество шагов в клетке.
      * @param entity перемещаемое существо.
      */
-    public Movement(TestBeast entity){
+    public Movement(Entity entity){
         this.entity = entity;
-        stepsInCell = entity.getCurrentCell().getSize();
-        setVelocityVector();
     }
 
-    /**
-     * Устанавливает вектор скорости по данным угла направления существа и скорости.
-     */
-    public void setVelocityVector(){
-        velocity.calcVelocity(entity.getRotation(), speed);
-    }
 
     /**
      * Выполнение шага в пространтсве.
@@ -68,11 +41,7 @@ public class Movement {
      * Устанавливает для существа новые координаты в непрерывном пространстве
      */
     public void perform(){
-        if(isStepToNewCell())
-            entity.setRotation();
 
-        entity.setX((float) (entity.getX() + velocity.x));
-        entity.setY((float) (entity.getY() + velocity.y));
     }
 
     /**
@@ -127,10 +96,12 @@ public class Movement {
         }
         //Устанавливаем получившееся направления существу только если оно проходит нижний порог значений направлений.
         if(brainOutput[order[2]] > LOWER_LIMIT_OF_BRAIN_OUTPUT_DIRECTION|| brainOutput[order[3]] > LOWER_LIMIT_OF_BRAIN_OUTPUT_DIRECTION) {
-            entity.getDirection().setDirection(dir);
-            System.out.println(dir);
-            perform(); //и запускаем шаг
+            entity.setDirection(dir);
+        } else {
+            entity.setDirection(DirectionValues.random());
         }
+            System.out.println(dir);
+            moveByDirection();
     }
 
     /**
@@ -170,24 +141,39 @@ public class Movement {
         return DirectionValues.EAST; //в случае нештатной ситуации жебошить вправо
     }
 
-    /**
-     * Проверка перехода в новую клетку.
-     * @return true - если переход совершился, false - если нет.
-     */
-    protected boolean isStepToNewCell(){
-        double stepPixels = (Math.abs(velocity.x) > Math.abs(velocity.y))?Math.abs(velocity.x):Math.abs(velocity.y);
-
-        stepsInCell += stepPixels;
-        if(stepsInCell >= entity.getCurrentCell().getSize()) {
-            entity.getCurrentCell().removeSelf(entity);
-            entity.setCurrentCell(entity.getWorld().getCell(entity.getX() + Movement.COORDINATION_ERROR,entity.getY() + Movement.COORDINATION_ERROR).setEntity(entity));
-            System.out.printf("New cell (%d,%d)\n", entity.getCurrentCell().getX(),entity.getCurrentCell().getY());
-            stepsInCell = 0;
-            return true;
+    private void moveByDirection(){
+        int speed = 1; //по хорошему должно передаваться от сущности (могут способности вроде рывка, например, на три клетки)
+        switch (entity.getDirection()){
+            case EAST:
+                move(speed,0);
+                break;
+            case NORTH_EAST:
+                move(speed,speed);
+                break;
+            case NORTH:
+                move(0,speed);
+                break;
+            case NORTH_WEST:
+                move(-speed,speed);
+                break;
+            case WEST:
+                move(-speed,0);
+                break;
+            case SOUTH_WEST:
+                move(-speed,-speed);
+                break;
+            case SOUTH:
+                move(0,-speed);
+                break;
+            case SOUTH_EAST:
+                move(speed,-speed);
+                break;
         }
-        else return false;
     }
 
+    private void move(int difX, int difY){
+        entity.setCurrentCell(entity.x() + difX, entity.y() + difY);
+    }
 
 
 }

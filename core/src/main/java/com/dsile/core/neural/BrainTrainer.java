@@ -1,6 +1,6 @@
 package com.dsile.core.neural;
 
-import com.dsile.core.entities.Entity;
+import com.dsile.core.entities.HasBrain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +59,7 @@ public class BrainTrainer {
      * Обучение мозга существа
      * @param beast обучаемое существо
      */
-    public void train(Entity beast){
+    public void train(HasBrain beast){
         Brain brain = beast.getBrain();
         trainRun(brain);
     }

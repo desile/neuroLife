@@ -1,6 +1,7 @@
 package com.dsile.core.entities.actions.factors;
 
 import com.dsile.core.entities.TestBeast;
+import com.dsile.core.entities.actions.Entity;
 import com.dsile.core.neural.Brain;
 
 /**
@@ -10,9 +11,9 @@ import com.dsile.core.neural.Brain;
  */
 public class Vision {
 
-    private TestBeast entity;
+    private Entity entity;
 
-    public Vision(TestBeast entity){
+    public Vision(Entity entity){
         this.entity = entity;
     }
 
