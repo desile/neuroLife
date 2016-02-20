@@ -4,13 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.dsile.core.entities.actions.Entity;
-import com.dsile.core.entities.actions.factors.Vision;
-import com.dsile.core.entities.actions.movement.DirectionValues;
-import com.dsile.core.entities.actions.movement.Movement;
-import com.dsile.core.entities.actions.movement.Direction;
 import com.dsile.core.neural.Brain;
-import com.dsile.core.world.Cell;
 import com.dsile.core.world.World;
 
 /**
@@ -20,14 +14,14 @@ import com.dsile.core.world.World;
  * Created by DeSile on 08.12.2015.
  */
 //TODO: Создать абстрактный класс, чтобы избежать создания анонимного класса в WorldScreen.
-public class TestBeast extends Entity {
+public class Lizard extends Creature {
 
     private Texture texture = new Texture("testbeast.png");
 
     /**
      * Создание существа (актера) в клеточном мире.
      */
-    public TestBeast(World world, int x, int y) {
+    public Lizard(World world, int x, int y) {
         super(world,x,y);
 
         addListener(new InputListener() {

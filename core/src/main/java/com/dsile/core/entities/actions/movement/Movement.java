@@ -1,8 +1,6 @@
 package com.dsile.core.entities.actions.movement;
 
-import com.dsile.core.entities.TestBeast;
-import com.dsile.core.entities.actions.Entity;
-import com.dsile.core.logic.Point;
+import com.dsile.core.entities.Creature;
 
 import java.util.Arrays;
 
@@ -24,14 +22,14 @@ public class Movement {
     /**
      * Перемещаемое существо.
      */
-    private Entity entity;
+    private Creature creature;
 
     /**
      * Устанавливает текущее существо, устанавливает вектор скорости и начальное количество шагов в клетке.
-     * @param entity перемещаемое существо.
+     * @param creature перемещаемое существо.
      */
-    public Movement(Entity entity){
-        this.entity = entity;
+    public Movement(Creature creature){
+        this.creature = creature;
     }
 
 
@@ -96,9 +94,9 @@ public class Movement {
         }
         //Устанавливаем получившееся направления существу только если оно проходит нижний порог значений направлений.
         if(brainOutput[order[2]] > LOWER_LIMIT_OF_BRAIN_OUTPUT_DIRECTION|| brainOutput[order[3]] > LOWER_LIMIT_OF_BRAIN_OUTPUT_DIRECTION) {
-            entity.setDirection(dir);
+            creature.setDirection(dir);
         } else {
-            entity.setDirection(DirectionValues.random());
+            creature.setDirection(DirectionValues.random());
         }
             System.out.println(dir);
             moveByDirection();
@@ -143,7 +141,7 @@ public class Movement {
 
     private void moveByDirection(){
         int speed = 1; //по хорошему должно передаваться от сущности (могут способности вроде рывка, например, на три клетки)
-        switch (entity.getDirection()){
+        switch (creature.getDirection()){
             case EAST:
                 move(speed,0);
                 break;
@@ -172,7 +170,7 @@ public class Movement {
     }
 
     private void move(int difX, int difY){
-        entity.setCurrentCell(entity.x() + difX, entity.y() + difY);
+        creature.setCurrentCell(creature.x() + difX, creature.y() + difY);
     }
 
 

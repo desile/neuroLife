@@ -1,7 +1,6 @@
 package com.dsile.core.entities.actions.factors;
 
-import com.dsile.core.entities.TestBeast;
-import com.dsile.core.entities.actions.Entity;
+import com.dsile.core.entities.Creature;
 import com.dsile.core.neural.Brain;
 
 /**
@@ -11,10 +10,10 @@ import com.dsile.core.neural.Brain;
  */
 public class Vision {
 
-    private Entity entity;
+    private Creature creature;
 
-    public Vision(Entity entity){
-        this.entity = entity;
+    public Vision(Creature creature){
+        this.creature = creature;
     }
 
     /**
@@ -26,35 +25,35 @@ public class Vision {
         //Создаем массив наполненный нулевыми элементами
         int[] env = new int[9];
         for(int e : env) e = 0;
-        int x = entity.getCurrentCell().getX();
-        int y = entity.getCurrentCell().getY();
+        int x = creature.getCurrentCell().getX();
+        int y = creature.getCurrentCell().getY();
 
         //Отмечаем в соответствующих ячейках наличие существ
-        if (entity.getWorld().getCell(x-1,y+1).getEntityList(entity).size() > 0){
+        if (creature.getWorld().getCell(x-1,y+1).getEntityList(creature).size() > 0){
             env[0] = 1;
         }
-        if (entity.getWorld().getCell(x,y+1).getEntityList(entity).size() > 0){
+        if (creature.getWorld().getCell(x,y+1).getEntityList(creature).size() > 0){
             env[1] = 1;
         }
-        if (entity.getWorld().getCell(x+1,y+1).getEntityList(entity).size() > 0){
+        if (creature.getWorld().getCell(x+1,y+1).getEntityList(creature).size() > 0){
             env[2] = 1;
         }
-        if (entity.getWorld().getCell(x-1,y).getEntityList(entity).size() > 0){
+        if (creature.getWorld().getCell(x-1,y).getEntityList(creature).size() > 0){
             env[3] = 1;
         }
-        if (entity.getWorld().getCell(x,y).getEntityList(entity).size() > 0){
+        if (creature.getWorld().getCell(x,y).getEntityList(creature).size() > 0){
             env[4] = 1;
         }
-        if (entity.getWorld().getCell(x+1,y).getEntityList(entity).size() > 0){
+        if (creature.getWorld().getCell(x+1,y).getEntityList(creature).size() > 0){
             env[5] = 1;
         }
-        if (entity.getWorld().getCell(x-1,y-1).getEntityList(entity).size() > 0){
+        if (creature.getWorld().getCell(x-1,y-1).getEntityList(creature).size() > 0){
             env[6] = 1;
         }
-        if (entity.getWorld().getCell(x,y-1).getEntityList(entity).size() > 0){
+        if (creature.getWorld().getCell(x,y-1).getEntityList(creature).size() > 0){
             env[7] = 1;
         }
-        if (entity.getWorld().getCell(x+1,y-1).getEntityList(entity).size() > 0){
+        if (creature.getWorld().getCell(x+1,y-1).getEntityList(creature).size() > 0){
             env[8] = 1;
         }
 
@@ -67,7 +66,7 @@ public class Vision {
      */
     public double[] accessSituation(){
         int[] environment = getEnvironment();
-        Brain brain = entity.getBrain();
+        Brain brain = creature.getBrain();
         brain.setInput(environment);
         brain.think();
         double[] thinks = brain.getOutput();

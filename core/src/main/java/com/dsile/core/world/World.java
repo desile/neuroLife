@@ -1,9 +1,8 @@
 package com.dsile.core.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.dsile.core.entities.TestBeast;
-import com.dsile.core.entities.actions.Entity;
+import com.dsile.core.entities.Lizard;
+import com.dsile.core.entities.Creature;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -20,7 +19,7 @@ public class World {
     private int cellsY;
     private Cell[][] cells;
 
-    private Set<Entity> entities = new HashSet<>();
+    private Set<Creature> entities = new HashSet<>();
 
     public World(int cellsX, int cellsY, int cellSize){
         this.cellsX = cellsX;
@@ -34,7 +33,7 @@ public class World {
             }
         }
 
-        entities.add(new TestBeast(this,5,5));
+        entities.add(new Lizard(this,5,5));
         //entities.add(new TestBeast(this,3,5));
 
     }
@@ -84,7 +83,7 @@ public class World {
         return cellsY;
     }
 
-    public Set<Entity> getEntities(){
+    public Set<Creature> getEntities(){
         return entities;
     }
 }

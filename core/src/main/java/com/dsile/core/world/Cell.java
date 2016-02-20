@@ -2,8 +2,8 @@ package com.dsile.core.world;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.dsile.core.entities.HasBrain;
-import com.dsile.core.entities.actions.Entity;
+import com.dsile.core.entities.Creature;
+import com.dsile.core.entities.Entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +26,7 @@ public abstract class Cell{
         this.x = x;
         this.y = y;
 
-        this.entities = new HashSet<Entity>();
+        this.entities = new HashSet<>();
     }
 
     public Set<Entity> getEntityList(){
@@ -34,7 +34,7 @@ public abstract class Cell{
     }
 
     public Set<Entity> getEntityList(Entity self){
-        Set<Entity> entitiesWithoutSelf = new HashSet<Entity>(entities);
+        Set<Entity> entitiesWithoutSelf = new HashSet<>(entities);
         entitiesWithoutSelf.remove(self);
         return  entitiesWithoutSelf;
     }
