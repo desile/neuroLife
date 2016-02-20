@@ -11,6 +11,9 @@ import org.neuroph.util.TransferFunctionType;
 
 public class NeuroLife extends Game {
 
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 600;
+
     @Override
     public void create() {
         setScreen(new WorldScreen());

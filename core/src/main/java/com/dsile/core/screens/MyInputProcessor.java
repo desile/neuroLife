@@ -1,24 +1,29 @@
 package com.dsile.core.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by DeSile on 2/20/2016.
  */
 public class MyInputProcessor implements InputProcessor {
 
-    private int currentKey = -1;
+    private Set<Integer> currentKey = new HashSet<>();
 
     @Override
     public boolean keyDown(int keycode) {
-        currentKey = keycode;
+        currentKey.add(keycode);
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        currentKey = -1;
+        currentKey.remove(keycode);
         return true;
     }
 
@@ -53,7 +58,7 @@ public class MyInputProcessor implements InputProcessor {
     }
 
     public boolean isSpacePressed(){
-        if(currentKey == Input.Keys.SPACE){
+        if(currentKey.contains(Input.Keys.SPACE)){
             return true;
         }
         else{
@@ -62,13 +67,29 @@ public class MyInputProcessor implements InputProcessor {
     }
 
     public boolean isSpaceClicked(){
-        if(currentKey == Input.Keys.SPACE){
-            currentKey = -1;
+        if(currentKey.contains(Input.Keys.SPACE)){
+            currentKey.remove(Input.Keys.SPACE);
             return true;
         } else {
             return false;
         }
     }
+
+    public void moveCameraByKeys(OrthographicCamera cam){
+        if (currentKey.contains(Input.Keys.LEFT)) {
+            cam.translate(-3, 0, 0);
+        }
+        if (currentKey.contains(Input.Keys.RIGHT)) {
+            cam.translate(3, 0, 0);
+        }
+        if (currentKey.contains(Input.Keys.DOWN)) {
+            cam.translate(0, -3, 0);
+        }
+        if (currentKey.contains(Input.Keys.UP)) {
+            cam.translate(0, 3, 0);
+        }
+    }
+
 
 
 }
