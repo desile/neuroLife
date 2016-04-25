@@ -59,9 +59,9 @@ public class WorldScreen implements Screen {
         batch.setProjectionMatrix(cam.combined);
 
         batch.begin();
-        //world.drawMap(batch);
+        world.drawMap(batch);
         batch.end();
-        //stage.draw();
+        stage.draw();
 
         if (keysProcessor.isSpaceClicked())
             stage.act(delta);

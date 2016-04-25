@@ -27,6 +27,8 @@ public class World {
         this.cellsX = cellsX;
         this.cellsY = cellsY;
 
+        System.out.println("Creating world");
+
         //TODO: Cell fabric?
         cells = new Cell[cellsX][cellsY];
         for(int i = 0; i < cellsX; i++){
@@ -35,7 +37,9 @@ public class World {
             }
         }
 
-        for(int i = 2; i < 30; i++){
+        System.out.println("Creating entities");
+
+        for(int i = 2; i < 3; i++){
             entities.add(new Lizard(this,i,i));
             entities.add(new Lizard(this,i,i));
             entities.add(new Lizard(this,i,i));
@@ -49,6 +53,8 @@ public class World {
         }
         entities.add(new Herb(this,7,7));
         //entities.add(new TestBeast(this,3,5));
+
+        System.out.println("Entites done");
 
     }
 

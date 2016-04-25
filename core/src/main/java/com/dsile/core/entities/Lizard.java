@@ -25,6 +25,7 @@ public class Lizard extends Creature {
      */
     public Lizard(World world, int x, int y) {
         super(world,x,y);
+        System.out.printf("Lizard created on (%d,%d)",x,y);
     }
 
     @Override
