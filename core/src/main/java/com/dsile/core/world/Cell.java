@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dsile.core.entities.Creature;
 import com.dsile.core.entities.Entity;
+import com.dsile.core.entities.Herb;
+import com.dsile.core.entities.Lizard;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,6 +39,32 @@ public abstract class Cell{
         Set<Entity> entitiesWithoutSelf = new HashSet<>(entities);
         entitiesWithoutSelf.remove(self);
         return  entitiesWithoutSelf;
+    }
+
+    public boolean isHerb(){
+        if(getHerb() == null){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public Herb getHerb(){
+        for(Entity entity : entities){
+            if(entity instanceof Herb){
+                return (Herb)entity;
+            }
+        }
+        return null;
+    }
+
+    public boolean isLizard(){
+        for(Entity entity : entities){
+            if(entity instanceof Lizard){
+                return true;
+            }
+        }
+        return false;
     }
 
     public Cell setEntity(Entity e){

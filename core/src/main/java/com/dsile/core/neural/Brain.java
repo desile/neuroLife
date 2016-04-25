@@ -8,6 +8,9 @@ import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.transfer.Linear;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.learning.BackPropagation;
+import org.neuroph.nnet.learning.DynamicBackPropagation;
+import org.neuroph.nnet.learning.LMS;
+import org.neuroph.nnet.learning.ResilientPropagation;
 import org.neuroph.util.NeuronProperties;
 import org.neuroph.util.TransferFunctionType;
 
@@ -24,9 +27,8 @@ public class Brain {
     public Brain(){
         List<Integer> neuronsInLayers = new ArrayList<>();
         neuronsInLayers.add(9);
-        neuronsInLayers.add(9);
-        neuronsInLayers.add(9);
         neuronsInLayers.add(4);
+        neuronsInLayers.add(7);
         neuralNetwork = new MultiLayerPerceptron(neuronsInLayers, new NeuronProperties(TransferFunctionType.SIGMOID, true));
 
         neuralNetwork.setLearningRule(new BackPropagation()); //раскомментирвал, т.к. должен быть метод обратного распространения ошибки
@@ -36,7 +38,7 @@ public class Brain {
             OutputLayerNeurons[i].setTransferFunction(new Linear());
         }
 
-        trainingSet = new DataSet(9, 4);
+        trainingSet = new DataSet(9, 7);
     }
     public void clearTrainingSet(){
         trainingSet.clear();
@@ -46,7 +48,7 @@ public class Brain {
     }
     public void learn(){
         System.out.println("going to learn...");
-        neuralNetwork.learn(trainingSet);
+        neuralNetwork.learnInNewThread(trainingSet);
         System.out.println("learning done");
     }
     public void setInput(double[] inputVector){

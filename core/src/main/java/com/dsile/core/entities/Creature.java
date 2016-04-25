@@ -13,6 +13,8 @@ public abstract class Creature extends Entity implements HasBrain {
     protected Vision vision;
     protected Movement movement;
 
+    protected int hungrines = 0;
+
 
     public Creature(World world, int x, int y){
         super(world,x,y);
@@ -20,4 +22,15 @@ public abstract class Creature extends Entity implements HasBrain {
         this.vision = new Vision(this);
         this.movement = new Movement(this);
     }
+
+    public abstract void learn();
+
+    protected abstract void attack();
+
+    protected abstract void move(double[] signal);
+
+    protected abstract void eat(double[] signal);
+
+    protected abstract void decomposed();
+
 }

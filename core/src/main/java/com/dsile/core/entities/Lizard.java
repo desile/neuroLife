@@ -1,11 +1,10 @@
 package com.dsile.core.entities;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.dsile.core.neural.Brain;
 import com.dsile.core.world.World;
+
+import java.util.Arrays;
 
 /**
  * Тестовое существо для отладки функций приложения.
@@ -16,42 +15,106 @@ import com.dsile.core.world.World;
 //TODO: Создать абстрактный класс, чтобы избежать создания анонимного класса в WorldScreen.
 public class Lizard extends Creature {
 
-    private Texture texture = new Texture("testbeast.png");
+    protected int maxHp = 50;
+    protected int maxEnergy = 20;
+    protected int hp = maxHp;
+    protected int energy = maxEnergy;
 
     /**
      * Создание существа (актера) в клеточном мире.
      */
     public Lizard(World world, int x, int y) {
         super(world,x,y);
+    }
 
-        addListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
+    @Override
+    public void learn() {
 
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+        //TODO: Генерировать массивы в отдельном классе
 
-            }
-        });
+        /*
+        *    Input Array: (на 4ой ячейке находимся мы)
+        *    |---|---|---|
+        *    | 0 | 1 | 2 |
+        *    |---|---|---|
+        *    | 3 | 4 | 5 |
+        *    |---|---|---|
+        *    | 6 | 7 | 8 |
+        *    |---|---|---|
+        *
+        *    Значение - событие на ячейке (0 - ничего, 1 - растение)
+        *
+        *    Output Array: (первые четыре ячейки)
+        *
+        *         1
+        *         ^
+        *         |
+        *   2 <-- * --> 0
+        *         |
+        *         v
+        *         3
+        *
+        *
+        *  Остальные ячейки: действия (идти, атакатовать, есть)
+        *
+        *  4 - перемещение
+        *  5 - атака
+        *  6 - кушать
+        *
+        **/
 
-        setOrigin(SIZE / 2, SIZE / 2);
+        brain.addRowToTrainingSet(new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0}, new double[]{0, 0, 0, 0, 1, 0, 0});
 
-        setBounds(currentCell.getDisplayX(), currentCell.getDisplayY(), SIZE, SIZE);
 
-        System.out.println(getX() + "," + getY() + "," + getOriginX() + "," + getOriginY());
+        brain.addRowToTrainingSet(new double[]{0, 0, 0, 0, 0, 0, 0, 0, 1}, new double[]{1, 0, 0, 1, 0, 0, 1});
+        brain.addRowToTrainingSet(new double[]{0, 0, 0, 0, 0, 0, 0, 1, 0}, new double[]{0, 0, 0, 1, 0, 0, 1});
+        brain.addRowToTrainingSet(new double[]{0, 0, 0, 0, 0, 0, 1, 0, 0}, new double[]{0, 0, 1, 1, 0, 0, 1});
+        brain.addRowToTrainingSet(new double[]{0, 0, 0, 0, 0, 1, 0, 0, 0}, new double[]{1, 0, 0, 0, 0, 0, 1});
+        brain.addRowToTrainingSet(new double[]{0, 0, 0, 0, 1, 0, 0, 0, 0}, new double[]{0, 0, 0, 0, 0, 0, 1});
+        brain.addRowToTrainingSet(new double[]{0, 0, 0, 1, 0, 0, 0, 0, 0}, new double[]{0, 0, 1, 0, 0, 0, 1});
+        brain.addRowToTrainingSet(new double[]{0, 0, 1, 0, 0, 0, 0, 0, 0}, new double[]{1, 1, 0, 0, 0, 0, 1});
+        brain.addRowToTrainingSet(new double[]{0, 1, 0, 0, 0, 0, 0, 0, 0}, new double[]{0, 1, 0, 0, 0, 0, 1});
+        brain.addRowToTrainingSet(new double[]{1, 0, 0, 0, 0, 0, 0, 0, 0}, new double[]{0, 1, 1, 0, 0, 0, 1});
+
+        brain.learn();
+        //logger.info("Brain successfuly learned");
+    }
+
+    @Override
+    protected void attack() {
 
     }
 
-    /**
-     * Отрисовка существо с учетом текстуры, масштабов и угла поворота.
-     * @param batch спрайтбатч-отрисовщик
-     * @param parentAlpha ???
-     */
     @Override
-    public void draw(Batch batch, float parentAlpha) {
-        batch.draw(texture, currentCell.getDisplayX(), currentCell.getDisplayY(), this.getOriginX(), this.getOriginY(), this.getWidth(),
-                this.getHeight(), this.getScaleX(), this.getScaleY(), this.getRotation(), 0, 0,
-                texture.getWidth(), texture.getHeight(), false, false);
+    protected void move(double[] signal) {
+        movement.perform(signal);
+    }
+
+    @Override
+    protected void eat(double[] signal) {
+        System.out.println("om-nom-nom: ()" + Arrays.toString(signal));
+    }
+
+    @Override
+    protected void decomposed() {
+        currentCell.removeEntity(this);
+        remove();
+    }
+
+    @Override
+    protected void setTexture(){
+        texture = new Texture("lizard.png");
+    }
+
+    @Override
+    protected void dead() {
+        if(alive) {
+            alive = false;
+            energy = maxEnergy;
+            texture = new Texture("lizard.png");//deadlizard.png
+        } else { //процесс разложения
+
+        }
     }
 
     /**
@@ -61,10 +124,21 @@ public class Lizard extends Creature {
      */
     @Override
     public void act(float delta) {
-        //Оценка окружающие обстановки
+        if(hp <= 0){
+            dead();
+            return;
+        }
         double[] thoughts = vision.accessSituation();
-        //Движение.
-        movement.perform(thoughts);
+        if(thoughts[4] > 0.5){
+            move(Arrays.copyOfRange(thoughts,0,4));
+        }
+        else if(thoughts[5] > 0.5){
+
+        }
+        else if(thoughts[6] > 0.5){
+            eat(Arrays.copyOfRange(thoughts,0,4));
+        }
+
     }
 
 

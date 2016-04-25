@@ -16,7 +16,7 @@ public class Movement {
      * Верхняя и нижния границы для определения направлений по значениям из нейронной сети
      */
     private static double UPPER_LIMIT_OF_BRAIN_OUTPUT_DIRECTION = 0.7;
-    private static double LOWER_LIMIT_OF_BRAIN_OUTPUT_DIRECTION = 0.15;
+    private static double LOWER_LIMIT_OF_BRAIN_OUTPUT_DIRECTION = 0.2;
 
 
     /**
@@ -96,6 +96,7 @@ public class Movement {
         if(brainOutput[order[2]] > LOWER_LIMIT_OF_BRAIN_OUTPUT_DIRECTION|| brainOutput[order[3]] > LOWER_LIMIT_OF_BRAIN_OUTPUT_DIRECTION) {
             creature.setDirection(dir);
         } else {
+            System.out.println("random");
             creature.setDirection(DirectionValues.random());
         }
             System.out.println(dir);

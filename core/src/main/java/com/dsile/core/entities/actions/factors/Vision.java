@@ -3,6 +3,10 @@ package com.dsile.core.entities.actions.factors;
 import com.dsile.core.entities.Creature;
 import com.dsile.core.neural.Brain;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Класс, отслеживающий сущностей в окружении.
  *
@@ -25,35 +29,35 @@ public class Vision {
         //Создаем массив наполненный нулевыми элементами
         int[] env = new int[9];
         for(int e : env) e = 0;
-        int x = creature.getCurrentCell().getX();
-        int y = creature.getCurrentCell().getY();
+        int x = creature.x();
+        int y = creature.y();
 
         //Отмечаем в соответствующих ячейках наличие существ
-        if (creature.getWorld().getCell(x-1,y+1).getEntityList(creature).size() > 0){
+        if (creature.getWorld().getCell(x-1,y+1).isHerb()){
             env[0] = 1;
         }
-        if (creature.getWorld().getCell(x,y+1).getEntityList(creature).size() > 0){
+        if (creature.getWorld().getCell(x,y+1).isHerb()){
             env[1] = 1;
         }
-        if (creature.getWorld().getCell(x+1,y+1).getEntityList(creature).size() > 0){
+        if (creature.getWorld().getCell(x+1,y+1).isHerb()){
             env[2] = 1;
         }
-        if (creature.getWorld().getCell(x-1,y).getEntityList(creature).size() > 0){
+        if (creature.getWorld().getCell(x-1,y).isHerb()){
             env[3] = 1;
         }
-        if (creature.getWorld().getCell(x,y).getEntityList(creature).size() > 0){
+        if (creature.getWorld().getCell(x,y).isHerb()){
             env[4] = 1;
         }
-        if (creature.getWorld().getCell(x+1,y).getEntityList(creature).size() > 0){
+        if (creature.getWorld().getCell(x+1,y).isHerb()){
             env[5] = 1;
         }
-        if (creature.getWorld().getCell(x-1,y-1).getEntityList(creature).size() > 0){
+        if (creature.getWorld().getCell(x-1,y-1).isHerb()){
             env[6] = 1;
         }
-        if (creature.getWorld().getCell(x,y-1).getEntityList(creature).size() > 0){
+        if (creature.getWorld().getCell(x,y-1).isHerb()){
             env[7] = 1;
         }
-        if (creature.getWorld().getCell(x+1,y-1).getEntityList(creature).size() > 0){
+        if (creature.getWorld().getCell(x+1,y-1).isHerb()){
             env[8] = 1;
         }
 
@@ -70,6 +74,7 @@ public class Vision {
         brain.setInput(environment);
         brain.think();
         double[] thinks = brain.getOutput();
+        System.out.println("thinks: " + Arrays.toString(thinks));
         return thinks;
     }
 }

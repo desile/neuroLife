@@ -1,6 +1,8 @@
 package com.dsile.core.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.dsile.core.entities.Entity;
+import com.dsile.core.entities.Herb;
 import com.dsile.core.entities.Lizard;
 import com.dsile.core.entities.Creature;
 
@@ -19,7 +21,7 @@ public class World {
     private int cellsY;
     private Cell[][] cells;
 
-    private Set<Creature> entities = new HashSet<>();
+    private Set<Entity> entities = new HashSet<>();
 
     public World(int cellsX, int cellsY, int cellSize){
         this.cellsX = cellsX;
@@ -33,7 +35,19 @@ public class World {
             }
         }
 
-        entities.add(new Lizard(this,5,5));
+        for(int i = 2; i < 30; i++){
+            entities.add(new Lizard(this,i,i));
+            entities.add(new Lizard(this,i,i));
+            entities.add(new Lizard(this,i,i));
+            entities.add(new Lizard(this,i,i));
+            entities.add(new Lizard(this,i,i));
+            entities.add(new Lizard(this,i,i));
+            entities.add(new Lizard(this,i,i));
+            entities.add(new Lizard(this,i,i));
+            entities.add(new Lizard(this,i,i));
+            entities.add(new Lizard(this,i,i));
+        }
+        entities.add(new Herb(this,7,7));
         //entities.add(new TestBeast(this,3,5));
 
     }
@@ -83,7 +97,7 @@ public class World {
         return cellsY;
     }
 
-    public Set<Creature> getEntities(){
+    public Set<Entity> getEntities(){
         return entities;
     }
 }

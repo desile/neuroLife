@@ -5,7 +5,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.async.ThreadUtils;
 import com.dsile.core.NeuroLife;
+import com.dsile.core.entities.Creature;
+import com.dsile.core.entities.HasBrain;
 import com.dsile.core.neural.BrainTrainer;
 import com.dsile.core.world.World;
 
@@ -24,8 +27,9 @@ public class WorldScreen implements Screen {
 
     @Override
     public void show() {
+
         batch = new SpriteBatch();
-        world = new World(10, 10, 32);
+        world = new World(35, 35, 32);
         stage = new Stage();
         // Constructs a new OrthographicCamera, using the given viewport width and height
         // Height is multiplied by aspect ratio.
@@ -42,7 +46,7 @@ public class WorldScreen implements Screen {
 
         stage.getViewport().setCamera(cam);
 
-        world.getEntities().stream().forEach(bt::train);
+        world.getEntities().stream().filter(e-> e instanceof Creature).forEach(e -> bt.train((Creature)e));
         world.getEntities().stream().forEach(stage::addActor);
     }
 
@@ -55,9 +59,9 @@ public class WorldScreen implements Screen {
         batch.setProjectionMatrix(cam.combined);
 
         batch.begin();
-        world.drawMap(batch);
+        //world.drawMap(batch);
         batch.end();
-        stage.draw();
+        //stage.draw();
 
         if (keysProcessor.isSpaceClicked())
             stage.act(delta);
